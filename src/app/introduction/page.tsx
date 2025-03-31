@@ -173,8 +173,8 @@ export default function Home() {
         options={{
           strings: [
             "Welcome to my digital world.",
-            "Where security meets innovation.",
-            "Explore my world of development, cybersecurity, and design.",
+            "Where most of my design meets innovation and memes.",
+            "Explore my world of development, Gaming, and design.",
           ],
           autoStart: true,
           delay: 50,
