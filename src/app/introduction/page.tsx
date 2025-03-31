@@ -110,8 +110,8 @@ export default function Home() {
 
       {/* 🔹 Scrollable Content Below */}
       <div className="mt-10 flex flex-col lg:flex-row gap-8">
-        <div id="next-section" className="h-screen bg-gray-900 flex items-center justify-center">
-        </div>
+       <div id="next-section" className="h-screen bg-gray-900 items-center justify-center md:flex hidden">
+</div>
 
   {/* Left Section (Roles, Programming Languages, Typewriter) */}
   <div className="flex flex-col gap-8 w-full lg:w-1/2">
