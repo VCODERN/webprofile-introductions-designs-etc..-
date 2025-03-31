@@ -11,6 +11,20 @@ import "aos/dist/aos.css";
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
+    const [expanded, setExpanded] = useState({
+    Website: false,
+    Interests: false,
+    Arduino: false,
+  });
+
+  // Toggle individual sections
+  const toggleSection = (section: keyof typeof expanded) => {
+    setExpanded((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
 
@@ -72,7 +86,7 @@ export default function Home() {
 
   {/* 📝 Profile Name & Role */}
   <h1 className="mt-6 text-6xl font-bold text-white">V1NC3</h1>
-  <p className="text-gray-400 text-2xl mt-2">Gamer | Web Developer | UI/UX </p>
+  <p className="text-gray-400 text-1xl mt-2">Gamer | Web Developer | UI/UX </p>
 
 
     {/* ⬇️ Scroll Down Indicator */}
@@ -134,7 +148,7 @@ export default function Home() {
       className="bg-black/40 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700"
     >
       <h2 className="text-white text-3xl font-semibold mb-6 text-center">
-        Programming Languages
+        Programming Languages Learned
       </h2>
 
       {/* ✅ Grid for Languages */}
@@ -186,25 +200,43 @@ export default function Home() {
     </motion.div>
   </div>
 
-  {/* Right Section (Website Designs & Arduino Projects) */}
-  <div className="flex flex-col gap-8 w-full lg:w-1/2">
-    {/* 🔹 Website Designs Showcase */}
+ {/* Right Section (Full Width - Website Designs, Arduino Projects & Interests) */}
+<div className="flex flex-col gap-8 w-full">
+  {/* 🔹 Website Designs Showcase */}
+  <motion.div
+    initial={{ y: 20, opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 1, delay: 0.7 }}
+    className="bg-black/40 backdrop-blur-md rounded-3xl p-6 shadow-xl border border-gray-700"
+  >
+    <h2 className="text-white text-3xl font-semibold text-center mb-4">
+      Website Designs
+    </h2>
+    <iframe
+      src="/WebsiteDesigns"
+      className="w-full h-[600px] rounded-lg shadow-lg border border-gray-600"
+    />
+  </motion.div>
+
+  {/* 🔹 Row for Interests & Arduino Projects (Equal Width) */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    {/* 🔹 Interests Showcase (Left) */}
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, delay: 0.7 }}
+      transition={{ duration: 1, delay: 0.8 }}
       className="bg-black/40 backdrop-blur-md rounded-3xl p-6 shadow-xl border border-gray-700"
     >
       <h2 className="text-white text-3xl font-semibold text-center mb-4">
-        Website Designs
+        My Interests
       </h2>
       <iframe
-        src="/WebsiteDesigns"
-        className="w-full h-[500px] rounded-lg shadow-lg border border-gray-600"
+        src="/interests"
+        className="w-full h-[600px] rounded-lg shadow-lg border border-gray-600"
       />
     </motion.div>
 
-    {/* 🔹 Arduino Projects Showcase */}
+    {/* 🔹 Arduino Projects Showcase (Right) */}
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -216,12 +248,13 @@ export default function Home() {
       </h2>
       <iframe
         src="/ArduinoProjects"
-        className="w-full h-[500px] rounded-lg shadow-lg border border-gray-600"
+        className="w-full h-[600px] rounded-lg shadow-lg border border-gray-600"
       />
     </motion.div>
   </div>
 </div>
 
+</div>
     </div>
   );
 }
