@@ -8,11 +8,19 @@ const Login: React.FC = () => {
   const [studentName, setStudentName] = useState('');
   const [studentId, setStudentId] = useState('');
   const [password, setPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false); // State to toggle between login and register
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add login functionality here
-    console.log('Logging in with:', studentName, studentId, password);
+    if (isRegistering) {
+      console.log('Registering new student:', studentName, studentId, password);
+    } else {
+      console.log('Logging in with:', studentName, studentId, password);
+    }
+  };
+
+  const toggleForm = () => {
+    setIsRegistering((prev) => !prev);
   };
 
   React.useEffect(() => {
@@ -28,17 +36,30 @@ const Login: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-semibold text-brown-800">Library Login</h2>
-          <p className="text-gray-600 mt-2">Please enter your details to log in</p>
-        </div>
+        {/* Title and Description */}
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-4xl font-semibold text-gray-800">{isRegistering ? 'Library Registration' : 'Library Login'}</h2>
+          <p className="text-gray-600 mt-2">{isRegistering ? 'Please fill out the form to register' : 'Please enter your details to log in'}</p>
+        </motion.div>
 
         {/* Book Icon & Design */}
         <div className="absolute top-4 left-4 text-yellow-500 text-5xl">
           📚
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        {/* Form with transition effect */}
+        <motion.form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           {/* Student Name Input */}
           <div className="space-y-2">
             <label htmlFor="studentName" className="block text-gray-800 font-medium">Student Name</label>
@@ -81,7 +102,7 @@ const Login: React.FC = () => {
             />
           </div>
 
-          {/* Login Button */}
+          {/* Submit Button */}
           <div className="flex justify-center">
             <motion.button
               type="submit"
@@ -90,14 +111,25 @@ const Login: React.FC = () => {
               animate={{ y: 0 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              Log in
+              {isRegistering ? 'Register' : 'Log in'}
             </motion.button>
           </div>
-        </form>
+        </motion.form>
 
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-600">New Student? <a href="#" className="text-teal-500">Register here</a></p>
-        </div>
+        {/* Toggle Between Login/Registration */}
+        <motion.div
+          className="text-center mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.3 }}
+        >
+          <p className="text-sm text-gray-600">
+            {isRegistering ? 'Already a student? ' : 'New student? '}
+            <a href="#" onClick={toggleForm} className="text-teal-500">
+              {isRegistering ? 'Log in here' : 'Register here'}
+            </a>
+          </p>
+        </motion.div>
       </motion.div>
     </div>
   );
