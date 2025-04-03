@@ -7,16 +7,24 @@ import 'aos/dist/aos.css';
 const Login: React.FC = () => {
   const [studentName, setStudentName] = useState('');
   const [studentId, setStudentId] = useState('');
+  const [course, setCourse] = useState('');
+  const [year, setYear] = useState('');
   const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false); // State to toggle between login and register
+  const [isSubmitting, setIsSubmitting] = useState(false); // State to handle form submission loading
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isRegistering) {
-      console.log('Registering new student:', studentName, studentId, password);
-    } else {
-      console.log('Logging in with:', studentName, studentId, password);
-    }
+    setIsSubmitting(true); // Start loading
+
+    setTimeout(() => {
+      if (isRegistering) {
+        console.log('Registering new student:', studentName, studentId, course, year, password);
+      } else {
+        console.log('Logging in with:', studentName, studentId, password);
+      }
+      setIsSubmitting(false); // End loading after submission
+    }, 2000); // Simulate a loading delay (e.g., API call)
   };
 
   const toggleForm = () => {
@@ -71,6 +79,7 @@ const Login: React.FC = () => {
               placeholder="Enter your name"
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -85,8 +94,43 @@ const Login: React.FC = () => {
               placeholder="Enter your student ID"
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+              disabled={isSubmitting}
             />
           </div>
+
+          {/* Course Input (For Registration) */}
+          {isRegistering && (
+            <div className="space-y-2">
+              <label htmlFor="course" className="block text-gray-800 font-medium">Course</label>
+              <input
+                type="text"
+                id="course"
+                value={course}
+                onChange={(e) => setCourse(e.target.value)}
+                placeholder="Enter your course"
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                disabled={isSubmitting}
+              />
+            </div>
+          )}
+
+          {/* Year Input (For Registration) */}
+          {isRegistering && (
+            <div className="space-y-2">
+              <label htmlFor="year" className="block text-gray-800 font-medium">Year</label>
+              <input
+                type="text"
+                id="year"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                placeholder="Enter your year"
+                required
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                disabled={isSubmitting}
+              />
+            </div>
+          )}
 
           {/* Password Input */}
           <div className="space-y-2">
@@ -99,6 +143,7 @@ const Login: React.FC = () => {
               placeholder="Enter your password"
               required
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+              disabled={isSubmitting}
             />
           </div>
 
@@ -110,8 +155,9 @@ const Login: React.FC = () => {
               initial={{ y: 10 }}
               animate={{ y: 0 }}
               transition={{ type: 'spring', stiffness: 300 }}
+              disabled={isSubmitting}
             >
-              {isRegistering ? 'Register' : 'Log in'}
+              {isSubmitting ? 'Submitting...' : isRegistering ? 'Register' : 'Log in'}
             </motion.button>
           </div>
         </motion.form>
@@ -125,9 +171,14 @@ const Login: React.FC = () => {
         >
           <p className="text-sm text-gray-600">
             {isRegistering ? 'Already a student? ' : 'New student? '}
-            <a href="#" onClick={toggleForm} className="text-teal-500">
+            <motion.a
+              href="#"
+              onClick={toggleForm}
+              className="text-teal-500"
+              whileTap={{ scale: 0.95 }} // Added bounce effect when clicked
+            >
               {isRegistering ? 'Log in here' : 'Register here'}
-            </a>
+            </motion.a>
           </p>
         </motion.div>
       </motion.div>
